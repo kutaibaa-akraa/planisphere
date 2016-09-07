@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="ar">
+
+<head>
+<meta charset="utf-8" >
+
+<title>القرص الفلكي</title>
+
+<link type="text/css" rel="stylesheet" href="css/astro.css">
+<link type="text/css" rel="stylesheet" href="css/plani.css">
+<script type="text/javascript" src="js/astro.js"></script>
+<script type="text/javascript" src="js/observer.js"></script>
+<script type="text/javascript" src="js/skypos.js"></script>
+<script type="text/javascript" src="js/skydb.js"></script>
+<script type="text/javascript" src="js/plani.js"></script>
+<link type="image/x-icon" rel="shortcut icon" href="favicon.ico">
+
+<script type="text/javascript">
+window.addEventListener( "load", canvasApp, false );
+</script>
+<style>
+td {text-align: left;}
+td.aligncenter {text-align: center;}
+</style>
+
+<style type="text/css">
+/* تهيئة الصندوق لعناوين الفقرات القابلة للطي */
+input.button {
+  color: #fff; background: #596178 ;
+  font-size: 1em;
+  font-weight:bold;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  border: solid 1px #ffcf31 ;
+}
+</style>
+<script type="text/javascript">
+function toggleMe(a){
+  var e=document.getElementById(a);
+  if(!e)return true;
+  if(e.style.display=="none"){
+    e.style.display="block"
+  } else {
+    e.style.display="none"
+  }
+  return true;
+}
+</script>
+</head>
+
+<body>
+
+<div id="main">
+
+<h1   >القرص الفلكي الافتراضي</h1>
+<h2  >ما الجديد في السماء فوقنا ....  .!</h2>
+
+<p  >باستخدام  HTML5's canvas element و الجافاسكريبت، ولدت هذه الصفحة و التي تظهر لنا السماء فوقنا بحسب الموقع الجغرافي الذي نقف عنده و الزمن الذي نحن فيه.
+سيظهر في القرص منظر السماء كما لو أنك مستلقي على ظهرك بحيث يكون رأسك باتجاه الشمال.
+و في هذه الوضعية يكون الشرق إلى يسارك، و الغرب إلى يمينك، و الجنوب باتجاه قدميك الممدودتين.</p>
+
+<div id="planidiv">
+<canvas id="planicanvas" width="800" height="800">
+<p class="unsupported">يبدو أن متصفحك لا يدعم HTML5 canvas
+element. نحن نأسف لهذا.</p>
+</canvas>
+<table >
+<tr>
+<th>إظهار/إخفاء</th>
+<th>تغيير الإحداثيات</th>
+<th>التاريخ و الوقت</th>
+</th>
+</tr>
+<tr>
+<td > <input id="user_conlab" type="checkbox" value="0"
+      onchange="get_user_obs()"> أسماء الكوكبات </td>
+<td class="aligncenter"> <input id="geoloc" type="button" value="استخدم موقعي"
+      onclick="getGeoPos()"> </td>
+<td class="aligncenter"><input id="user_date" type="text" size="36"
+      onchange="get_user_obs()">
+</td>
+
+</tr>
+   <tr>
+<td><input id="user_conline" type="checkbox" value="1"
+      onchange="get_user_obs()"> خطوط الكوكبات</td>
+<td class="aligncenter">
+عرض <input id="user_lat" type="text" size=
+"1"
+      onchange="get_user_obs()">شمالا </td>
+<td class="aligncenter">
+<input id="user_dec" type="button" value="<" onclick="dec_button()">
+ <select name="increment" id="increment">
+         <option value="1">ساعة</option>
+         <option value="24">يوم</option>
+         <option value="168">أسبوع</option>
+         <option value="720">شهر</option>
+         <option value="8760">سنة</option>
+      </select>
+
+<input id="user_inc" type="button" value=">" onclick="inc_button()">
+ <input id="user_now" type="button" value="التوقيت الحالي" onclick="now_button()">
+      </td>
+
+   </tr>
+   <tr>
+<td>
+ <input id="user_starlab" type="checkbox" value="0"
+      onchange="get_user_obs()"> أسماء النجوم
+</td>
+<td class="aligncenter"> طول <input id="user_lon" type="text" size="1" onchange="get_user_obs()">شرقا
+</td>
+<td >
+    </td>
+</tr>
+<tr>
+<td colspan="5">
+<input id="user_dsos" type="checkbox" value="1"
+      onchange="get_user_obs()">أجرام سماوية خافتة &nbsp; &nbsp;
+</td>
+<td></td>
+ <td></td>
+   </tr>
+</table>
+</div>
+<div>
+<input type="button" class="button" onclick="return toggleMe('para1')" value="ملاحظات المؤلف ">
+</div>
+<div id="para1" style="display:none">
+<div>
+<p>مبدئيا، استخدمنا خط العرض  40° شمالا و أما خط الطول فيتم تقديره آليا من إعدادات المنطقة الزمنية لجهاز الكومبيوتر 
+خاصتك و أما زر  <q>استخدم موقعي</q> فإنه يستخلص موقعك عبر خاصية تدعمها HTML5. و الفكرة أنه لدى الضغط عاى الزر سيطلب منك الموقع الإذن باستخدام معلومات عن موقعك، و لا يتم إرسال هذه المعلومات لأي مكان آخر.تستطيع استخدام الأسهم لتصنع قفزات زمنية للتاريخ و الوقت زيادة أو نقصانا. لاحظ أن قيم خط الطول و العرض هي أعداد صحيحة لعدم ضرورة استخدام دقة عالية في هذه القيم.
+لذلك لا تزعج نفسك باستخدام قيم دقيقة لإحداثيات مكانك.</p>
+
+<p>قيم مواضع و لمعان و ألوان النجوم تم استيرادها من مصنف  ( B-V index) و المأخوذ أساسا من مصنف ييل Yale Bright Star Catalog. جميع النجوم الأكثر لمعانا من القدر 5.5 في مصنف ييل تم تضمينها هنا.
+استعملنا خطوط الكوكبات من كتاب  Donald Menzel's
+<cite>A Field Guide to the Stars and Planets</cite> (Houghton Mifflin, 1964).</p>
+
+<p>تم وضع أسماء لأجرام خافتة مثل (المجرات, العناقيد النجمية, السدم) من مصنف ميسييه
+ Messier catalog (تلك التي تبدأ بحرف <q>M</q>) أو NGC.
+تظهر حوالي  30 من أجرام ميسييه الأكثر لمعانا.
+و من المعروف بأن ميسييه كان يرصد من مدينة باريس، و بالتالي لا تمثل لائحته أجرام  القبة السماوية الجنوبية بشكل جيد. لذلك تم إضافة عدد مماثل من الأسماء من مصنف   NGC .
+تم إضافة العنقود اامزدوج في كوكبة برشاوس
+(NGC 869 و 884),
+و الذي تجاهله ميسييه  !.</p>
+
+<p  >تم حساب مواضع الكواكب باستخدام العناصر المدارية. و الخطأ في حدوده القصوى لا يتعدى البيكسل الواحد لعقود عديدة حول العام 2000. استخدمت العناصر المدارية الواردة في :
+ <br/>
+<b><cite>Explanatory
+Supplement to the Astronomical Almanac</cite> 1992</b> <br/>عبر الطرق الرياضية الواردة في الفصل  33 من كتاب المؤلف  Jean Meeus's :
+<br/> <b><cite>Astronomical Algorithms</cite></b> 2nd ed.
+Willmann-Bell, 1998.</p>
+
+<p>حساب موضع القمر مشتق من ملف مكتوب بلغة الباسكال <tt>MINIMOON.PAS</tt>
+من كتاب :<br/>
+  <cite>Astronomy on the Personal Computer</cite> 2nd ed., by Montenbruck and
+Pfleger ,Springer-Verlag, 1994.
+كما و يحسب الكود الوضع الزاوي و مقدار إضاءة الهلال، و كلا الحسابين بالاعتماد على 
+ Meeus, و لكن لا تظهر حاليا.</p>
+
+<p>رسمت الخريطة وفق إسقاط قطبي استوائي متساوي المسافة <cite> polar azimuthal equidistant projection</cite>
+و هو الإسقاط الأكثر شيوعا لاستخدامها في الكرات السماوية الفلكية  planispheres.</p>
+
+<p>كتبت الإصدارة الأولية من هذه الصفحة في العام 2006 (باعتباره برنامج جافا سكريبت Java applet) 
+لجعلها اگثر إفادة قمت بمراجعة العمل أواخر العام 2011 ، حيث أضيفت الأجرام السماوية الخافتة و أوجه القمرو النسخة الأولى بلغة   Javascript/HTML5 canvas كتبت في العام 2013 و قد ألهمني الحديث مع  SIGGRAPH حول وسوم الكانفاس canvas element, و عدم رواج الجافا لأسباب تتعلق بالأمان. في منتصف العام 2014 تمت إضافة أسماء النجوم و الكوكبات و تغير لون خلفية السماء نهارا و ليلا.
+</p>
+</div>
+</div>
+
+<div>
+<input type="button" class="button" onclick="return toggleMe('para2')" value=" ملاحظات المترجم">
+</div>
+<div id="para2" style="display:none">
+<p>
+قمت باقتطاع هذه الصفحة من الموقع الأصلي لإيرني-رايت و ترجمتها بتصرف كبير بصراحة !. و الأهم في الأمر عموما هو ترجمة أسماء الكوكبات و النجوم و الكواكب و السدم و العناقيد و المجرات.
+الميزة في هذه الصفحة أنها تعمل على جميع المتصفحات أي هي بمثابة خريطة للسماء يمكن تشغيلها على الكومبيوتر أو هاتفك المحمول. و هي بسيطة بشكل كاف لإلقاء نظرة سريعة إلى السماء في أي وقت تختاره فهي ليست صورة جامدة. 
+</p>
+</div>
+<div>
+<input type="button" class="button" onclick="return toggleMe('para3')" value=" بعض المواقع التي تهتم برسم السماء ">
+</div>
+<div id="para3" style="display:none">
+<ul>
+<li><a href="http://www.skyandtelescope.com"><cite>Sky and Telescope</cite></a>'s
+مخطط تفاعلي للسماء</li>
+<li><a href="http://www.skyviewcafe.com/skyview.php">Sky View Café</a> يحتاج لتفعيل الجافا من أجل عمله بشكل صحيح</li>
+<li> <a href="http://www.fourmilab.ch/yoursky/">Your Sky</a>
+موقع تم إعداده من قبل John Walker </li>
+<li><a href="http://www.skymaps.com/index.html">Skymaps.com</a>موقع لخرائط مجانية شهرية</li>
+<li><a href="http://www.astroviewer.com">AstroViewer</a> تستطيع منه تضمين خريطة معدلة ضمن صفحتك الخاصة.</li>
+</ul>
+</div>
+
+<p id="copyright">© <a href="http://www.etwright.org/index.html">Ernie Wright</a></p>
+<p id="copyright">ترجمة و إعداد : <a href="https://sites.google.com/site/interactiveastronomy">قتيبة أقرع</a></p>
+</div>
+</body>
+</html>

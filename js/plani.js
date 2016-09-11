@@ -158,9 +158,9 @@ function draw_sky( context, w, h )
    context.fillStyle = "#888";
    context.font = "12px Sans-Serif";
    context.fillText( "شمال", ( w - 10 ) / 2, 9 );
-   context.fillText( "جنوب", ( w - 10 ) / 2, h - 5 );
+   context.fillText( "جنوب", ( w - 10 ) / 2, h - 9 );
    context.fillText( "شرق", 2, h / 2 );
-   context.fillText( "غرب", w - 14, h / 2 - 2 );
+   context.fillText( "غرب", w - 30, h / 2 - 2 );
 
    /* ---- stars */
    var len = star.length;

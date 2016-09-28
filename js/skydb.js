@@ -3014,7 +3014,7 @@ var conname = [
 {pos:{ra:5.834,dec:-0.535},abbrev:"PsA",name:"الحوت الجنوبي"},
 {pos:{ra:0.206,dec: 0.150},abbrev:"Psc",name:"الحوت"},
 {pos:{ra:1.902,dec:-0.543},abbrev:"Pup",name:"الكوثل"},
-{pos:{ra:2.345,dec:-0.477},abbrev:"Pyx",name:"الكوثل"},
+{pos:{ra:2.345,dec:-0.477},abbrev:"Pyx",name:"بيت الإبرة"},
 {pos:{ra:1.029,dec:-1.047},abbrev:"Ret",name:"الشبكة"},
 {pos:{ra:0.223,dec:-0.560},abbrev:"Scl",name:"معمل النحات"},
 {pos:{ra:4.419,dec:-0.471},abbrev:"Sco",name:"العقرب"},

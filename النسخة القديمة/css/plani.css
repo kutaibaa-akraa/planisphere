@@ -1,0 +1,17 @@
+#main {
+   width: 800px;
+}
+
+.unsupported {
+   font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif;
+   color: #F44;
+}
+
+table {
+   width: 70%;
+   margin: 1.5em auto 1.5em auto;
+   text-align: center;
+   direction: ltr;
+   font-family: Arial, Helvetica, 'Nimbus Sans L', sans-serif;
+   color: #A98;
+}

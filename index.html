@@ -1,49 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="ar">
-
 <head>
-<meta charset="utf-8" >		
+<meta charset="utf-8">
 <title>القرص الفلكي</title>
 
-<link type="text/css" rel="stylesheet" href="css/astro.css">
 <link type="text/css" rel="stylesheet" href="css/plani.css">
 <script type="text/javascript" src="js/astro.js"></script>
 <script type="text/javascript" src="js/observer.js"></script>
 <script type="text/javascript" src="js/skypos.js"></script>
 <script type="text/javascript" src="js/skydb.js"></script>
 <script type="text/javascript" src="js/plani.js"></script>
-<link type="image/x-icon" rel="shortcut icon" href="favicon.ico">
 
 <script type="text/javascript">
-window.addEventListener( "load", canvasApp, false );
-</script>
-<style>
-td {text-align: left;}
-td.aligncenter {text-align: center;}
-</style>
-
-<style type="text/css">
-/* تهيئة الصندوق لعناوين الفقرات القابلة للطي */
-input.button {
-  color: #fff; background: #596178 ;
-  font-size: 1em;
-  font-weight:bold;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  border: solid 1px #ffcf31 ;
-}
-</style>
-<script type="text/javascript">
-function toggleMe(a){
-  var e=document.getElementById(a);
-  if(!e)return true;
-  if(e.style.display=="none"){
-    e.style.display="block"
-  } else {
-    e.style.display="none"
-  }
-  return true;
-}
+window.addEventListener("load", canvasApp, false);
 </script>
 </head>
 
@@ -51,147 +20,201 @@ function toggleMe(a){
 
 <div id="main">
 
-<h1   >القرص الفلكي الافتراضي</h1>
-<h2  >ما الجديد في السماء فوقنا ....  .!</h2>
-
-<p  >باستخدام  HTML5's canvas element و الجافاسكريبت، ولدت هذه الصفحة و التي تظهر لنا السماء فوقنا بحسب الموقع الجغرافي الذي نقف عنده و الزمن الذي نحن فيه.
-سيظهر في القرص منظر السماء كما لو أنك مستلقي على ظهرك بحيث يكون رأسك باتجاه الشمال.
-و في هذه الوضعية يكون الشرق إلى يسارك، و الغرب إلى يمينك، و الجنوب باتجاه قدميك الممدودتين.</p>
-
+<h1>القرص الفلكي الافتراضي</h1>
+<!-- قسم نظام الإحداثيات -->
+<div class="control-section">
+    <h3>نظام الإحداثيات</h3>
+    
+    <div class="coordinate-buttons">
+        <button id="coordSystemBtn" class="coordinate-btn" onclick="toggleCoordinateSystem()">
+            🜨 نظام سـمتي
+        </button>
+        <button id="coordGridBtn" class="coordinate-btn" onclick="toggleCoordinateGrid()">
+            🗺 إظهار الشبكة
+        </button>
+    </div>
+    
+    <div class="system-info">
+        <span id="coordSystemInfo">النظام السـمتي (الارتفاع-السـمت)</span>
+    </div>
+</div>
 <div dir="ltr" id="planidiv">
 <canvas id="planicanvas" width="800" height="800">
-<p class="unsupported">يبدو أن متصفحك لا يدعم HTML5 canvas
-element. نحن نأسف لهذا.</p>
+<p class="unsupported">يبدو أن متصفحك لا يدعم HTML5 canvas element. نحن نأسف لهذا.</p>
 </canvas>
-<table >
-<tr>
-<th>إظهار/إخفاء</th>
-<th>تغيير الإحداثيات</th>
-<th>التاريخ و الوقت</th>
-</th>
-</tr>
-<tr>
-<td > <input id="user_conlab" type="checkbox" value="0"
-      onchange="get_user_obs()"> أسماء الكوكبات </td>
-<td class="aligncenter"> <input id="geoloc" type="button" value="استخدم موقعي"
-      onclick="getGeoPos()"> </td>
-<td class="aligncenter"><input id="user_date" type="text" size="36"
-      onchange="get_user_obs()">
-</td>
 
-</tr>
-   <tr>
-<td><input id="user_conline" type="checkbox" value="1"
-      onchange="get_user_obs()"> خطوط الكوكبات</td>
-<td class="aligncenter">
-عرض <input id="user_lat" type="text" size=
-"1"
-      onchange="get_user_obs()">شمالا </td>
-<td class="aligncenter">
-<input id="user_dec" type="button" value="<" onclick="dec_button()">
- <select name="increment" id="increment">
-         <option value="1">ساعة</option>
-         <option value="24">يوم</option>
-         <option value="168">أسبوع</option>
-         <option value="720">شهر</option>
-         <option value="8760">سنة</option>
-      </select>
-
-<input id="user_inc" type="button" value=">" onclick="inc_button()">
- <input id="user_now" type="button" value="التوقيت الحالي" onclick="now_button()">
-      </td>
-
-   </tr>
-   <tr>
-<td>
- <input id="user_starlab" type="checkbox" value="0"
-      onchange="get_user_obs()"> أسماء النجوم
-</td>
-<td class="aligncenter"> طول <input id="user_lon" type="text" size="1" onchange="get_user_obs()">شرقا
-</td>
-<td >
-    </td>
-</tr>
-<tr>
-<td colspan="5">
-<input id="user_dsos" type="checkbox" value="1"
-      onchange="get_user_obs()">أجرام سماوية خافتة &nbsp; &nbsp;
-</td>
-<td></td>
- <td></td>
-   </tr>
-</table>
+<div class="control-panel">
+    
+    <!-- قسم الإظهار/الإخفاء -->
+    <div class="control-section">
+        <h3>إظهار/إخفاء</h3>
+        <div class="control-group">
+            <label>
+                <input id="user_conlab" type="checkbox" value="0" onchange="get_user_obs()">
+                أسماء الكوكبات
+            </label>
+        </div>
+        <div class="control-group">
+            <label>
+                <input id="user_conline" type="checkbox" value="1" onchange="get_user_obs()">
+                خطوط الكوكبات
+            </label>
+        </div>
+        <div class="control-group">
+            <label>
+                <input id="user_starlab" type="checkbox" value="0" onchange="get_user_obs()">
+                أسماء النجوم
+            </label>
+        </div>
+        <div class="control-group">
+            <label>
+                <input id="user_dsos" type="checkbox" value="1" onchange="get_user_obs()">
+                أجرام سماوية خافتة
+            </label>
+        </div>
+    </div>
+    
+<!-- قسم إدارة المواقع الجغرافية -->
+<div class="control-section">
+    <h3>الموقع الجغرافي</h3>
+    
+   <!-- عرض اسم الموقع والإحداثيات -->
+   <div id="currentLocationDisplay" class="current-location-info">
+      <div class="location-name">جاري تحميل الموقع...</div>
+      <div class="location-coords">عرض: 0.000000° شمالاً | طول: 0.000000° شرقاً</div>
+   </div>
+    
+    <div class="coordinates-display">
+        <div class="coord-input-group">
+            <label>عرض شمالاً:</label>
+            <input id="user_lat" type="text" onchange="get_user_obs()">
+        </div>
+        <div class="coord-input-group">
+            <label>طول شرقاً:</label>
+            <input id="user_lon" type="text" onchange="get_user_obs()">
+        </div>
+    </div>
+    
+    <div class="location-management">
+        <div class="location-buttons">
+            <button class="location-btn" onclick="getAndSaveCurrentLocation()">
+                📍 احصل على موقعي الحالي
+            </button>
+            <button class="location-btn" onclick="searchLocationByName()">
+                🔍 بحث عن موقع
+            </button>
+            <button class="location-btn secondary" onclick="showSavedLocations()">
+                💾 المواقع المحفوظة
+            </button>
+        </div>
+        
+        <div class="import-export-buttons">
+            <button class="location-btn" onclick="exportLocations()">
+                📤 تصدير
+            </button>
+            <button class="location-btn" onclick="importLocations()">
+                📥 استيراد
+            </button>
+        </div>
+    </div>
 </div>
-<div>
-<input type="button" class="button" onclick="return toggleMe('para1')" value="ملاحظات المؤلف ">
+    
+<!-- قسم التاريخ والوقت -->
+<div class="control-section">
+    <h3>التاريخ والوقت</h3>
+    <div class="control-group">
+        <input id="user_date" type="text" class="date-time-input" placeholder="انقر لإدخال التاريخ والوقت" onchange="get_user_obs()">
+    </div>
+    <div class="time-controls">
+        <button id="user_dec" onclick="dec_button()">&lt;</button>
+        <select name="increment" id="increment">
+            <option value="1">ساعة</option>
+            <option value="24">يوم</option>
+            <option value="168">أسبوع</option>
+            <option value="720">شهر</option>
+            <option value="8760">سنة</option>
+        </select>
+        <button id="user_inc" onclick="inc_button()">&gt;</button>
+    </div>
+    <div class="buttons-row">
+        <button id="user_now" onclick="now_button()">التوقيت الحالي</button>
+    </div>
+    
+    <!-- التحكم في التحديث التلقائي -->
+    <div class="auto-update-controls">
+        <div class="auto-update-status">
+            <span>التحديث التلقائي</span>
+            <span id="lastUpdateTime" class="auto-update-time">جاري التحميل...</span>
+        </div>
+        
+        <div class="auto-update-buttons">
+            <button id="autoUpdateBtn" class="auto-update-btn" onclick="toggleAutoUpdate()">
+                ▶ بدء التحديث التلقائي
+            </button>
+        </div>
+        
+        <div class="frequency-controls">
+            <button class="frequency-btn active" onclick="setUpdateFrequency(10000)">10 ثوان</button>
+            <button class="frequency-btn" onclick="setUpdateFrequency(30000)">30 ثانية</button>
+            <button class="frequency-btn" onclick="setUpdateFrequency(60000)">دقيقة</button>
+            <button class="frequency-btn" onclick="setUpdateFrequency(300000)">5 دقائق</button>
+        </div>
+    </div>
 </div>
-<div id="para1" style="display:none">
-<div>
-<p>مبدئيا، استخدمنا خط العرض  40° شمالا و أما خط الطول فيتم تقديره آليا من إعدادات المنطقة الزمنية لجهاز الكومبيوتر 
-خاصتك و أما زر  <q>استخدم موقعي</q> فإنه يستخلص موقعك عبر خاصية تدعمها HTML5. و الفكرة أنه لدى الضغط عاى الزر سيطلب منك الموقع الإذن باستخدام معلومات عن موقعك، و لا يتم إرسال هذه المعلومات لأي مكان آخر.تستطيع استخدام الأسهم لتصنع قفزات زمنية للتاريخ و الوقت زيادة أو نقصانا. لاحظ أن قيم خط الطول و العرض هي أعداد صحيحة لعدم ضرورة استخدام دقة عالية في هذه القيم.
-لذلك لا تزعج نفسك باستخدام قيم دقيقة لإحداثيات مكانك.</p>
-
-<p>قيم مواضع و لمعان و ألوان النجوم تم استيرادها من مصنف  ( B-V index) و المأخوذ أساسا من مصنف ييل Yale Bright Star Catalog. جميع النجوم الأكثر لمعانا من القدر 5.5 في مصنف ييل تم تضمينها هنا.
-استعملنا خطوط الكوكبات من كتاب  Donald Menzel's
-<cite>A Field Guide to the Stars and Planets</cite> (Houghton Mifflin, 1964).</p>
-
-<p>تم وضع أسماء لأجرام خافتة مثل (المجرات, العناقيد النجمية, السدم) من مصنف ميسييه
- Messier catalog (تلك التي تبدأ بحرف <q>M</q>) أو NGC.
-تظهر حوالي  30 من أجرام ميسييه الأكثر لمعانا.
-و من المعروف بأن ميسييه كان يرصد من مدينة باريس، و بالتالي لا تمثل لائحته أجرام  القبة السماوية الجنوبية بشكل جيد. لذلك تم إضافة عدد مماثل من الأسماء من مصنف   NGC .
-تم إضافة العنقود اامزدوج في كوكبة برشاوس
-(NGC 869 و 884),
-و الذي تجاهله ميسييه  !.</p>
-0
-<p  >تم حساب مواضع الكواكب باستخدام العناصر المدارية. و الخطأ في حدوده القصوى لا يتعدى البيكسل الواحد لعقود عديدة حول العام 2000. استخدمت العناصر المدارية الواردة في :
- <br/>
-<b><cite>Explanatory
-Supplement to the Astronomical Almanac</cite> 1992</b> <br/>عبر الطرق الرياضية الواردة في الفصل  33 من كتاب المؤلف  Jean Meeus's :
-<br/> <b><cite>Astronomical Algorithms</cite></b> 2nd ed.
-Willmann-Bell, 1998.</p>
-
-<p>حساب موضع القمر مشتق من ملف مكتوب بلغة الباسكال <tt>MINIMOON.PAS</tt>
-من كتاب :<br/>
-  <cite>Astronomy on the Personal Computer</cite> 2nd ed., by Montenbruck and
-Pfleger ,Springer-Verlag, 1994.
-كما و يحسب الكود الوضع الزاوي و مقدار إضاءة الهلال، و كلا الحسابين بالاعتماد على 
- Meeus, و لكن لا تظهر حاليا.</p>
-
-<p>رسمت الخريطة وفق إسقاط قطبي استوائي متساوي المسافة <cite> polar azimuthal equidistant projection</cite>
-و هو الإسقاط الأكثر شيوعا لاستخدامها في الكرات السماوية الفلكية  planispheres.</p>
-
-<p>كتبت الإصدارة الأولية من هذه الصفحة في العام 2006 (باعتباره برنامج جافا سكريبت Java applet) 
-لجعلها اگثر إفادة قمت بمراجعة العمل أواخر العام 2011 ، حيث أضيفت الأجرام السماوية الخافتة و أوجه القمرو النسخة الأولى بلغة   Javascript/HTML5 canvas كتبت في العام 2013 و قد ألهمني الحديث مع  SIGGRAPH حول وسوم الكانفاس canvas element, و عدم رواج الجافا لأسباب تتعلق بالأمان. في منتصف العام 2014 تمت إضافة أسماء النجوم و الكوكبات و تغير لون خلفية السماء نهارا و ليلا.
-</p>
-</div>
-</div>
-
-<div>
-<input type="button" class="button" onclick="return toggleMe('para2')" value=" ملاحظات المترجم">
-</div>
-<div id="para2" style="display:none">
-<p>
-قمت باقتطاع هذه الصفحة من الموقع الأصلي لإيرني-رايت و ترجمتها بتصرف كبير بصراحة !. و الأهم في الأمر عموما هو ترجمة أسماء الكوكبات و النجوم و الكواكب و السدم و العناقيد و المجرات.
-الميزة في هذه الصفحة أنها تعمل على جميع المتصفحات أي هي بمثابة خريطة للسماء يمكن تشغيلها على الكومبيوتر أو هاتفك المحمول. و هي بسيطة بشكل كاف لإلقاء نظرة سريعة إلى السماء في أي وقت تختاره فهي ليست صورة جامدة. 
-</p>
-</div>
-<div>
-<input type="button" class="button" onclick="return toggleMe('para3')" value=" بعض المواقع التي تهتم برسم السماء ">
-</div>
-<div id="para3" style="display:none">
-<ul>
-<li><a href="http://www.skyandtelescope.com"><cite>Sky and Telescope</cite></a>'s
-مخطط تفاعلي للسماء</li>
-<li><a href="http://www.skyviewcafe.com/skyview.php">Sky View Café</a> يحتاج لتفعيل الجافا من أجل عمله بشكل صحيح</li>
-<li> <a href="http://www.fourmilab.ch/yoursky/">Your Sky</a>
-موقع تم إعداده من قبل John Walker </li>
-<li><a href="http://www.skymaps.com/index.html">Skymaps.com</a>موقع لخرائط مجانية شهرية</li>
-<li><a href="http://www.astroviewer.com">AstroViewer</a> تستطيع منه تضمين خريطة معدلة ضمن صفحتك الخاصة.</li>
-</ul>
 </div>
 
-<p id="copyright">© <a href="http://www.etwright.org/index.html">Ernie Wright</a></p>
-<p id="copyright">ترجمة و إعداد : <a href="https://sites.google.com/site/interactiveastronomy">قتيبة أقرع</a></p>
+<!-- نافذة المواقع المحفوظة (مخفية) -->
+<div id="locationsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1A1D2B; padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
+        <h3 style="margin-top: 0; color: #A98;">المواقع المحفوظة</h3>
+        <div id="savedLocationsList" class="saved-locations-list">
+            <!-- سيتم ملؤها بالجافاسكريبت -->
+        </div>
+        <div style="margin-top: 15px; text-align: center;">
+            <button onclick="closeLocationsModal()" class="location-btn">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- قسم البحث عن الأجرام السماوية -->
+<div class="control-section">
+    <h3>البحث عن الأجرام السماوية</h3>
+    
+    <div class="celestial-search">
+        <div class="search-input-group">
+            <input type="text" id="objectSearch" class="search-input" 
+                   placeholder="ابحث عن نجم، كوكب، أو جرم سماوي..." 
+                   oninput="searchObjects()">
+        </div>
+        
+        <div class="search-results" id="searchResults">
+            <div class="search-result-item">اكتب للبحث...</div>
+        </div>
+        
+        <div class="coord-inputs">
+            <input type="text" id="celestialRA" class="coord-input" 
+                   placeholder="المطلع المستقيم" readonly>
+            <input type="text" id="celestialDEC" class="coord-input" 
+                   placeholder="الميل" readonly>
+        </div>
+        
+        <div class="celestial-info" id="celestialInfo">
+            اختر جرمًا سماويًا من القائمة
+        </div>
+        
+        <div class="celestial-buttons">
+            <button class="celestial-btn update-btn" onclick="updateSelectedObject()">
+                🔄 تحديث الموقع
+            </button>
+            <button class="celestial-btn clear" onclick="stopHighlighting()">
+                ✕ إخفاء التمييز
+            </button>
+        </div>
+    </div>
+</div>
+
+
+</div>
 </div>
 </body>
 </html>

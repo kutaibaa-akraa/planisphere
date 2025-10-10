@@ -1,0 +1,42 @@
+[
+  {
+    "name": "حلب, سوريا",
+    "latitude": 36.19924,
+    "longitude": 37.1637253,
+    "type": "city",
+    "importance": 0.6620598541319047,
+    "timestamp": "2025-10-10T08:18:28.049Z"
+  },
+  {
+    "name": "دمشق, سوريا",
+    "latitude": 33.5130695,
+    "longitude": 36.3095814,
+    "type": "city",
+    "importance": 0.7061624577048261,
+    "timestamp": "2025-10-10T08:19:32.824Z"
+  },
+  {
+    "name": "حمص, سوريا",
+    "latitude": 34.7333334,
+    "longitude": 36.7166667,
+    "type": "city",
+    "importance": 0.6038591867841201,
+    "timestamp": "2025-10-10T09:21:21.239Z"
+  },
+  {
+    "name": "اللاذقية, سوريا",
+    "latitude": 35.5200185,
+    "longitude": 35.7781044,
+    "type": "city",
+    "importance": 0.5828256243152381,
+    "timestamp": "2025-10-10T10:19:22.140Z"
+  },
+  {
+    "name": "حماة, سوريا",
+    "latitude": 35.1343368,
+    "longitude": 36.7496276,
+    "type": "city",
+    "importance": 0.5821549908647967,
+    "timestamp": "2025-10-10T10:30:51.832Z"
+  }
+]

@@ -104,9 +104,11 @@ pos.x = w * (0.5 - tmp * Math.sin(coord[0]));
 pos.y = h * (0.5 - tmp * Math.cos(coord[0]));
 
 // النظام القطبي  
-var r = (1 - coord[1] / (Math.PI / 2)) * (w / 2.5);
-pos.x = w/2 + r * Math.sin(angle);
-pos.y = h/2 - r * Math.cos(angle);
+var angle = hourAngle;
+var radius = maxRadius * (1 - dec / (Math.PI / 2));
+pos.x = w / 2 + radius * Math.sin(angle);
+pos.y = h / 2 + radius * Math.cos(angle);
+
 ```
 
 ### 3. **الرسم على Canvas**

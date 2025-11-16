@@ -19,7 +19,7 @@ window.addEventListener("load", canvasApp, false);
 <body>
 
 <div id="main">
-
+<div dir="ltr" id="planidiv">
 <h1>القرص الفلكي الافتراضي</h1>
 <!-- قسم نظام الإحداثيات -->
 <div class="control-section">
@@ -38,8 +38,8 @@ window.addEventListener("load", canvasApp, false);
         <span id="coordSystemInfo">النظام السـمتي (الارتفاع-السـمت)</span>
     </div>
 </div>
-<div dir="ltr" id="planidiv">
-<canvas id="planicanvas" width="800" height="800">
+
+<canvas id="planicanvas" width="1200" height="1200">
 <p class="unsupported">يبدو أن متصفحك لا يدعم HTML5 canvas element. نحن نأسف لهذا.</p>
 </canvas>
 
@@ -161,7 +161,6 @@ window.addEventListener("load", canvasApp, false);
         </div>
     </div>
 </div>
-</div>
 
 <!-- نافذة المواقع المحفوظة (مخفية) -->
 <div id="locationsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000;">
@@ -177,10 +176,10 @@ window.addEventListener("load", canvasApp, false);
 </div>
 
 <!-- قسم البحث عن الأجرام السماوية -->
-<div class="control-section">
-    <h3>البحث عن الأجرام السماوية</h3>
-    
+    <div class="control-section">
+	<h3>البحث عن الأجرام السماوية</h3>
     <div class="celestial-search">
+	
         <div class="search-input-group">
             <input type="text" id="objectSearch" class="search-input" 
                    placeholder="ابحث عن نجم، كوكب، أو جرم سماوي..." 
@@ -210,10 +209,9 @@ window.addEventListener("load", canvasApp, false);
                 ✕ إخفاء التمييز
             </button>
         </div>
-    </div>
+    </div>    
+	</div>
 </div>
-
-
 </div>
 </div>
 </body>

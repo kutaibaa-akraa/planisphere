@@ -607,7 +607,7 @@ function stopAutoUpdate() {
 // تبديل التحديث التلقائي
 function toggleAutoUpdate() {
     if (autoUpdateEnabled) {
-        stopAutoUpdate();
+		stopAutoUpdate();        
     } else {
         startAutoUpdate();
     }
@@ -695,22 +695,50 @@ var showCoordinateGrid = true;
 
 // دوال التحويل بين الأنظمة
 function convertToPolarCoords(pos, now, w, h) {
-    var coord = [pos.ra, pos.dec];
-    Astro.precess(Astro.JD_J2000, now.jd, coord);
-    coord[0] = now.lst - coord[0];
-    Astro.aa_hadec(now.latitude, coord, coord);
-    
-    if (coord[1] < 0) {
+    try {
+        var coord = [pos.ra, pos.dec];
+        
+        // 1. الاعتدال الفلكي من J2000 إلى الوقت الحالي
+        Astro.precess(Astro.JD_J2000, now.jd, coord);
+        
+        // 2. حساب زاوية الساعة
+        var hourAngle = Astro.range(now.lst - coord[0], Math.PI * 2);
+        var dec = coord[1];
+        
+        // 3. تحديد الرؤية (للقطب الشمالي)
+        var latitude = now.latitude;
+        if (dec < -Math.PI/2 + latitude) { // تعديل حسب خط العرض
+            pos.visible = false;
+        } else {
+            pos.visible = true;
+            
+            // 4. التحويل القطبي الصحيح
+            // نصف القطر يتناسب مع بعد الجرم عن القطب
+            var maxRadius = w / 2;
+            var radius = maxRadius * (1 - dec / (Math.PI / 2));
+            
+            // 5. الزاوية هي زاوية الساعة (مع تعديل الاتجاه)
+            var angle = hourAngle;
+            
+            pos.x = w / 2 + radius * Math.sin(angle);
+            pos.y = h / 2 + radius * Math.cos(angle);
+            
+            // 6. التحقق من أن النقطة داخل الدائرة
+            var distanceFromCenter = Math.sqrt(
+                Math.pow(pos.x - w/2, 2) + Math.pow(pos.y - h/2, 2)
+            );
+            if (distanceFromCenter > maxRadius) {
+                pos.visible = false;
+            }
+        }
+        
+        return [hourAngle, dec];
+        
+    } catch (error) {
+        console.log('❌ خطأ في التحويل القطبي:', error);
         pos.visible = false;
-    } else {
-        pos.visible = true;
-        // التحويل إلى الإحداثيات القطبية
-        var r = (1 - coord[1] / (Math.PI / 2)) * (w / 2.5);
-        var angle = coord[0];
-        pos.x = w / 2 + r * Math.sin(angle);
-        pos.y = h / 2 - r * Math.cos(angle);
+        return [0, 0];
     }
-    return coord;
 }
 
 // دالة الرسم المحدثة مع دعم النظامين
@@ -959,10 +987,10 @@ function updateCoordinateGridButton() {
     var button = document.getElementById('coordGridBtn');
     if (button) {
         if (showCoordinateGrid) {
-            button.innerHTML = '🗺 إظهار الشبكة';
+            button.innerHTML = '🗺 إخفاء الشبكة';
             button.style.backgroundColor = '#3a3240';
         } else {
-            button.innerHTML = '🗺 إخفاء الشبكة';
+            button.innerHTML = '🗺 إظهار الشبكة';
             button.style.backgroundColor = '#2b2632';
         }
     }

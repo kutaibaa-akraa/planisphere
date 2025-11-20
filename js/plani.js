@@ -1218,7 +1218,6 @@ function searchObjects() {
 }
 
 // تحديث نتائج البحث
-// تحديث دالة عرض نتائج البحث
 function updateSearchResults(results) {
     var dropdown = document.getElementById('searchResults');
     dropdown.innerHTML = '';
@@ -1291,7 +1290,7 @@ function drawCelestialHighlight(context, w, h) {
     if (flash) {
         context.strokeStyle = "#FFFF00";
         context.fillStyle = "rgba(255, 255, 0, 0.2)";
-        context.lineWidth = 3;
+        context.lineWidth = 1;
         
         // دائرة خارجية
         context.beginPath();
